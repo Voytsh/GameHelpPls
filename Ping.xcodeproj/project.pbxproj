@@ -8,18 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		32A7DCD5269B2D5200C75819 /* PingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A7DCD4269B2D5200C75819 /* PingApp.swift */; };
-		32A7DCD7269B2D5200C75819 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A7DCD6269B2D5200C75819 /* ContentView.swift */; };
 		32A7DCD9269B2D5400C75819 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32A7DCD8269B2D5400C75819 /* Assets.xcassets */; };
 		32A7DCDC269B2D5400C75819 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32A7DCDB269B2D5400C75819 /* Preview Assets.xcassets */; };
+		32A7DCE7269B2D9E00C75819 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A7DCE6269B2D9E00C75819 /* MainView.swift */; };
+		32A7DCE9269B2DEF00C75819 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A7DCE8269B2DEF00C75819 /* PlayerView.swift */; };
+		32A7DCEC269B2E4300C75819 /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A7DCEB269B2E4300C75819 /* PlayerModel.swift */; };
+		32DA6847269B407200BC2574 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA6846269B407200BC2574 /* MainViewModel.swift */; };
+		32DA6849269B43FE00BC2574 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA6848269B43FE00BC2574 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		32A7DCD1269B2D5200C75819 /* Ping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32A7DCD4269B2D5200C75819 /* PingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PingApp.swift; sourceTree = "<group>"; };
-		32A7DCD6269B2D5200C75819 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		32A7DCD8269B2D5400C75819 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		32A7DCDB269B2D5400C75819 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		32A7DCDD269B2D5400C75819 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32A7DCE6269B2D9E00C75819 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		32A7DCE8269B2DEF00C75819 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		32A7DCEB269B2E4300C75819 /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
+		32DA6846269B407200BC2574 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		32DA6848269B43FE00BC2574 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				32A7DCD4269B2D5200C75819 /* PingApp.swift */,
-				32A7DCD6269B2D5200C75819 /* ContentView.swift */,
+				32A7DCEA269B2E2F00C75819 /* Models */,
+				32A7DCE3269B2D8900C75819 /* Views */,
 				32A7DCD8269B2D5400C75819 /* Assets.xcassets */,
 				32A7DCDD269B2D5400C75819 /* Info.plist */,
 				32A7DCDA269B2D5400C75819 /* Preview Content */,
@@ -67,6 +76,25 @@
 				32A7DCDB269B2D5400C75819 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		32A7DCE3269B2D8900C75819 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				32A7DCE8269B2DEF00C75819 /* PlayerView.swift */,
+				32A7DCE6269B2D9E00C75819 /* MainView.swift */,
+				32DA6848269B43FE00BC2574 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		32A7DCEA269B2E2F00C75819 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				32A7DCEB269B2E4300C75819 /* PlayerModel.swift */,
+				32DA6846269B407200BC2574 /* MainViewModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +166,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32A7DCD7269B2D5200C75819 /* ContentView.swift in Sources */,
+				32A7DCE9269B2DEF00C75819 /* PlayerView.swift in Sources */,
+				32DA6847269B407200BC2574 /* MainViewModel.swift in Sources */,
 				32A7DCD5269B2D5200C75819 /* PingApp.swift in Sources */,
+				32DA6849269B43FE00BC2574 /* SettingsView.swift in Sources */,
+				32A7DCEC269B2E4300C75819 /* PlayerModel.swift in Sources */,
+				32A7DCE7269B2D9E00C75819 /* MainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

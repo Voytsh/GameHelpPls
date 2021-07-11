@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct PingApp: App {
+    
+    @StateObject var mainViewModel : MainViewModel = MainViewModel()
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        WindowGroup{
+            MainView()
+                .environmentObject(mainViewModel)
         }
     }
 }
