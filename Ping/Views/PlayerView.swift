@@ -10,23 +10,19 @@ import SwiftUI
 struct PlayerView: View {
     let hh = UIScreen.main.bounds.height
     let playerBackgroundColor: Color
-    @State var player: PlayerModel 
+    @Binding var player: PlayerModel
     
     
-    init(_ playerBackgroundColor: Color, player: PlayerModel) {
+    
+    init(_ playerBackgroundColor: Color, player: Binding<PlayerModel>) {
         self.playerBackgroundColor = playerBackgroundColor
-        self.player = player
+        self._player = player
     }
     
     var body: some View {
         ZStack {
             playerBackgroundColor
                 .cornerRadius(15)
-            
-            //serveImage content
-//            serveLabel
-//                //.opacity(0.5)
-//                .opacity(player.serves ? 1 : 0)
             
             // text content
             VStack{
@@ -35,13 +31,9 @@ struct PlayerView: View {
                 setPointsLabel
                 allPointsLabel
             }
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: .infinity,
-                   maxHeight: .infinity,
-                   alignment: .center)
-            .onTapGesture {
-                player.scorePoint()
-            }
+        }
+        .onTapGesture {
+            player.scorePoint()
         }
     }
 }
@@ -60,7 +52,7 @@ extension PlayerView {
     var pointsLabel: some View {
         Text(String(player.points))
             .font(.system(size: hh/6))
-            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+            .fontWeight(.bold)
     }
     var setPointsLabel: some View {
         Text(String(player.setPoints))
@@ -73,7 +65,7 @@ extension PlayerView {
             .font(.system(size: hh/40))
             .fontWeight(.thin)
     }
-    
+
     var serveLabel: some View {
         VStack {
             Spacer()
@@ -96,6 +88,6 @@ extension PlayerView {
 //struct PlayerView_Previews: PreviewProvider {
 //
 //    static var previews: some View {
-//        PlayerView(Color("C1"), player: PlayerModel(startsTheGame: <#Binding<Bool>#>, name: "Player1", points: 8, setPoints: 4, allPoints: 47, didStart: true))
+//        PlayerView(Color("C1"), player: PlayerModel(serves: true))
 //    }
 //}

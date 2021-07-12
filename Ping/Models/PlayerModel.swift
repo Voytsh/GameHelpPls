@@ -12,19 +12,29 @@ struct PlayerModel {
     var points: Int = 0
     var setPoints: Int = 0
     var allPoints: Int = 0
-    var serves: Bool
+    var serveFirst: Bool
     
     mutating func scorePoint() {
         points += 1
         allPoints += 1
-        winsSet()
-    }
+        winSet()
+            
+            //otherPlayer.serves = true
+        }
+//    mutating func wonlastSet() {
+//        if points == 11 {
+//            
+//        }
+//    }
     
-    mutating func winsSet() {
+    mutating func winSet() -> Bool {
         if points == 11 {
             setPoints += 1
             points = 0
-            serves = false
+            serveFirst = false
+            return true
         }
+        return serveFirst 
     }
+    
 }
