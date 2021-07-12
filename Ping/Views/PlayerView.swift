@@ -11,12 +11,15 @@ struct PlayerView: View {
     let hh = UIScreen.main.bounds.height
     let playerBackgroundColor: Color
     @Binding var player: PlayerModel
+    @Binding var otherP: PlayerModel
+    @EnvironmentObject var mainViewModel: MainViewModel
     
     
     
-    init(_ playerBackgroundColor: Color, player: Binding<PlayerModel>) {
+    init(_ playerBackgroundColor: Color, player: Binding<PlayerModel>, otherP: Binding<PlayerModel>) {
         self.playerBackgroundColor = playerBackgroundColor
         self._player = player
+        self._otherP = otherP
     }
     
     var body: some View {
@@ -33,7 +36,8 @@ struct PlayerView: View {
             }
         }
         .onTapGesture {
-            player.scorePoint()
+            player.scorePoint(op: &otherP)
+            
         }
     }
 }

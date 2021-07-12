@@ -13,6 +13,7 @@ struct MainView: View {
     var startsTheGame: Bool = false
     @EnvironmentObject var mainViewModel: MainViewModel
     @State var showSettings: Bool = false
+    //@Binding var selectSetTo: String
     
         var body: some View {
             ZStack{
@@ -24,15 +25,9 @@ struct MainView: View {
                 VStack(spacing: 0){
                     //P1
                     ZStack{
-                        PlayerView(Color("C1"), player: $mainViewModel.player1)
+                        PlayerView(Color("C1"), player: $mainViewModel.player1, otherP: $mainViewModel.player2)
                             .padding(15)
-                        Image(systemName: (mainViewModel.p1Serves() ? "s.circle": ""))
-                        //Image(systemName: (mainViewModel.p1Serves(mainViewModel.player1.winSet())) ? "s.circle": "")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: ww/8, maxHeight: hh/8)
-                            .padding(ww/6)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        getImage(mainViewModel.p1Serves()) // S icon telling if it's the player's turn to serve
                     }
                     
                     //settings&info
@@ -40,20 +35,13 @@ struct MainView: View {
                     
                     //P2
                     ZStack{
-                        PlayerView(Color("C2"), player: $mainViewModel.player2)
+                        PlayerView(Color("C2"), player: $mainViewModel.player2, otherP: $mainViewModel.player1)
                             .padding(15)
-//                        Image(systemName: (!mainViewModel.p1Serves(mainViewModel.player1.winSet())) ? "s.circle": "")
-                        Image(systemName: (!mainViewModel.p1Serves() ? "s.circle": ""))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: ww/8, maxHeight: hh/8)
-                            .padding(ww/6)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        getImage(!mainViewModel.p1Serves()) // S icon telling if it's the player's turn to serve
+                        
                     }
                     
                 }
-                
-                //serveLayer
                 
             }
             .sheet(isPresented: $showSettings, content: {
@@ -62,6 +50,15 @@ struct MainView: View {
         }
 }
 extension MainView {
+    func getImage(_ isServing: Bool) -> some View {
+        return Image(systemName: (isServing ? "s.circle": ""))
+            .resizable()
+            .scaledToFill()
+            .frame(maxWidth: ww/8, maxHeight: hh/8)
+            .padding(ww/6)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+    }
+    
     var midSection: some View {
         HStack{
             Button(action: {
@@ -72,6 +69,10 @@ extension MainView {
                     .foregroundColor(Color(#colorLiteral(red: 1, green: 0.9843137255, blue: 0, alpha: 1)))
             })
             .padding(.horizontal)
+            
+//            Text("Set is played to 11 points")
+//                .font(.footnote)
+//                .foregroundColor(Color(#colorLiteral(red: 1, green: 0.9843137255, blue: 0, alpha: 1)))
             
             Button(action: {
                 //showingSettings.toggle()
@@ -90,16 +91,3 @@ extension MainView {
 //        MainView()
 //    }
 //}
-
-
-//        var showSettingsLayer: some View {
-//            ZStack{
-//                if showSettings {
-//                    SettingsView()
-//    //                    SettingsView(showingSettings: $showingSettings)
-//    //                        .transition(.move(edge: .bottom))
-//    //                        .animation(.default)
-//
-//                }
-//            }.zIndex(2.0)
-//        }
