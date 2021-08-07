@@ -14,6 +14,7 @@ struct PlayerModel {
     var allPoints: Int = 0
     var serveFirst: Bool
     var needsToWinSet: Int = 11
+    @AppStorage("winSet") var winSet: String = "11"
     @EnvironmentObject var mainViewModel: MainViewModel
 
     
@@ -21,12 +22,19 @@ struct PlayerModel {
         points += 1
         allPoints += 1
         //if won set
-        if points == needsToWinSet {
+        if points == (Int(winSet) ?? 11) {
             setPoints += 1
             points = 0
             serveFirst = false
             op.points = 0
             op.serveFirst = true
+        }
+    }
+    
+    mutating func undoScorePoint() {
+        if points > 0 {
+            points -= 1
+            allPoints -= 1
         }
     }
 }

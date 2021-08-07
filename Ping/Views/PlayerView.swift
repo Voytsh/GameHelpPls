@@ -16,6 +16,8 @@ struct PlayerView: View {
     
     
     
+    
+    
     init(_ playerBackgroundColor: Color, player: Binding<PlayerModel>, otherP: Binding<PlayerModel>) {
         self.playerBackgroundColor = playerBackgroundColor
         self._player = player
@@ -35,10 +37,22 @@ struct PlayerView: View {
                 allPointsLabel
             }
         }
+//        .onLongPressGesture(minimumDuration: 0.7, maximumDistance: 50) { (isPressing) in
+//            if isPressing {
+//                player.scorePoint(op: &otherP)
+//            }
+//        } perform: {
+//            player.undoScorePoint()
+//        }
         .onTapGesture {
             player.scorePoint(op: &otherP)
-            
         }
+        .gesture(
+            MagnificationGesture()
+                .onEnded{ _ in
+                    player.undoScorePoint()
+                }
+        )
     }
 }
 

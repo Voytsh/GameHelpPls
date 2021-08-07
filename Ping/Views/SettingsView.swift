@@ -11,7 +11,6 @@ struct SettingsView: View {
     let hh = UIScreen.main.bounds.height
     @State var p1TF: String = ""
     @State var p2TF: String = ""
-    @State var savedTF1: String = ""
     @Binding var showSettings: Bool
     @EnvironmentObject var mainViewModel: MainViewModel
     
@@ -23,23 +22,39 @@ struct SettingsView: View {
     @State var setToWasChange: Bool = false
     @State var selectGameTo: String = "5"
     
+    @State var setToLabel: String = "11"
+    @AppStorage("winSet") var winSet = "11"
+//    @AppStorage("g1") var g1 = "Player1"
+//    @AppStorage("g2") var g2 = "Player2"
+    @State var watcher: Int = -1
+    
 //MARK: BODY
     
     var body: some View {
         ZStack{
             //background
-            Color(#colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1))
+            Color("C3-2")
                 .edgesIgnoringSafeArea(.all)
             
-            Color(#colorLiteral(red: 0.8712900281, green: 0.8510302901, blue: 0.1147780493, alpha: 1))
+            Color("C3")
                 .cornerRadius(25)
                 .padding()
             
-            VStack(spacing: 15.0) {
+            VStack(alignment: .center, spacing: 5.0) {
                 buttonLayer
+                    .padding(.vertical)
                 tfLayer
+                    .padding(.vertical)
                 pickersLayer
+                    .padding(.top)
+                Text("If you change this setting, the current score will be lost!")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
+                    //.foregroundColor(Color("C4"))
+                    .foregroundColor(Color("C3-1"))
                 Spacer()
+                
             }
             .padding(50)
         }
@@ -55,7 +70,7 @@ extension SettingsView {
     //MARK: METHODS
     
     func canSave() -> Bool {
-        if p1TF.count > 2 || p2TF.count > 2 || setToWasChange {
+        if p1TF.count > 0 || p2TF.count > 0 /*|| setToWasChange*/ {
             return true
         } else {
             return false
@@ -65,15 +80,21 @@ extension SettingsView {
     
     func saveChanges() {
         if canSave() {
-            if p1TF.count > 2 {
+            if p1TF.count > 0 {
                 mainViewModel.player1.name = p1TF
+                p1TF = ""
+                //g1 = p1TF
             }
-            if p2TF.count > 2 {
+            if p2TF.count > 0 {
                 mainViewModel.player2.name = p2TF
+                p2TF = ""
+                //g2 = p2TF
             }
-            if setToWasChange {
-                setToWasChange = false
-            }
+//            if setToWasChange {
+//                setToWasChange = false
+//                winSet = selectSetTo
+//                setToLabel = winSet
+//            }
             mainViewModel.player1.needsToWinSet = Int(selectSetTo) ?? 11
             mainViewModel.player2.needsToWinSet = Int(selectSetTo) ?? 11
 //            mainViewModel.player1.needsToWinGame = Int(selectSetTo) ?? 11
@@ -91,9 +112,9 @@ extension SettingsView {
             }, label: {
                 Text("Back to game")
                     .padding()
-                    .foregroundColor(Color(#colorLiteral(red: 0.8712900281, green: 0.8510302901, blue: 0.1147780493, alpha: 1)))
+                    .foregroundColor(Color("C3"))
                     .font(.subheadline)
-                    .background(Color(#colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)))
+                    .background(Color("C3-1"))
                     .cornerRadius(15)
                     
             })
@@ -103,37 +124,40 @@ extension SettingsView {
             Button(action: {
                     saveChanges()
             }, label: {
-                Text("Save")
+                Text("Save Names")
                     .padding()
-                    .foregroundColor(canSave() ? Color(#colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)) : Color.gray)
+                    .foregroundColor(canSave() ? Color("C3-1") : Color.gray)
                     .font(.subheadline)
                     .overlay(
                             RoundedRectangle(cornerRadius: 15)
-                                .stroke(canSave() ? Color(#colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)) : Color.gray, lineWidth: 1)
+                                .stroke(canSave() ? Color("C3-1") : Color.gray, lineWidth: 1)
                         )
             })
+            .disabled(!canSave())
         }
     }
     
     var tfLayer: some View {
         VStack(spacing: 15) {
             TextField("New Player1 Name", text: $p1TF)
-                .foregroundColor(.primary)
                 .padding()
+                .background(Color.gray.opacity(0.3)).cornerRadius(15)
                 .overlay(
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(Color("C1"), lineWidth: 3)
                     )
                 .multilineTextAlignment(.center)
+                .padding(.vertical, 5)
             
             TextField("New Player2 Name", text: $p2TF)
-                .foregroundColor(.primary)
                 .padding()
+                .background(Color.gray.opacity(0.3)).cornerRadius(15)
                 .overlay(
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(Color("C2"), lineWidth: 3)
                 )
                 .multilineTextAlignment(.center)
+                .padding(.vertical, 5)
         }
     }
     
@@ -142,14 +166,14 @@ extension SettingsView {
             Picker(selection: $selectSetTo,
                    label:
                     HStack{
-                        Text("Play set to \(selectSetTo) points")
+                        Text("Play set to \(setToLabel) points")
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundColor(Color(#colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)))
+                            .foregroundColor(Color("C3-1"))
                             .font(.headline)
                             .overlay(
                                     RoundedRectangle(cornerRadius: 15)
-                                        .stroke(Color(#colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)), lineWidth: 1)
+                                        .stroke(Color("C3-1"), lineWidth: 1)
                                 )
                     }
                    ,
@@ -161,10 +185,33 @@ extension SettingsView {
                    }
             )
             .pickerStyle(MenuPickerStyle())
+//            .onAppear(perform: {
+//                setToLabel = winSet
+//                selectSetTo = winSet
+//                setToWasChange = false
+//            })
             .onChange(of: selectSetTo, perform: { _ in
-                setToWasChange = true
+                winSet = selectSetTo
+                setToLabel = selectSetTo
+                //setToLabel = winSet
+                if watcher >= 0{
+                    mainViewModel.player1.points = 0
+                    mainViewModel.player2.points = 0
+                    mainViewModel.player1.setPoints = 0
+                    mainViewModel.player2.setPoints = 0
+                    mainViewModel.player1.allPoints = 0
+                    mainViewModel.player2.allPoints = 0
+                }
+                watcher += 1
+                //setToWasChange = true
             })
+            .padding(.vertical)
             
+//            .onTapGesture(perform: {
+//                selectSetTo = winSet
+//            })
+            
+    
             
 //            Picker(selection: $selectGameTo,
 //                   label:
@@ -190,6 +237,12 @@ extension SettingsView {
 //            .pickerStyle(MenuPickerStyle())
             
         }
+        .onAppear(perform: {
+            setToLabel = winSet
+            selectSetTo = winSet
+//            setToWasChange = false
+            selectSetTo = winSet
+        })
     }
     
 }
@@ -211,9 +264,3 @@ struct GameTo: Identifiable {
         self.points = points
     }
 }
-
-//struct SettingsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SettingsView()
-//    }
-//}

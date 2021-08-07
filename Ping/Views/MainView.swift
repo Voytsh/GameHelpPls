@@ -13,7 +13,11 @@ struct MainView: View {
     var startsTheGame: Bool = false
     @EnvironmentObject var mainViewModel: MainViewModel
     @State var showSettings: Bool = false
+    @State var showInfoAlert: Bool = false
     //@Binding var selectSetTo: String
+    
+    @AppStorage("winSet") var winSet: String = "11"
+
     
         var body: some View {
             ZStack{
@@ -51,12 +55,13 @@ struct MainView: View {
 }
 extension MainView {
     func getImage(_ isServing: Bool) -> some View {
-        return Image(systemName: (isServing ? "s.circle": ""))
+        return Image(systemName: "s.circle")
             .resizable()
             .scaledToFill()
-            .frame(maxWidth: ww/8, maxHeight: hh/8)
-            .padding(ww/6)
+            .frame(maxWidth: ww/9, maxHeight: hh/9)
+            .padding(ww/8)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            .opacity(isServing ? 1 : 0)
     }
     
     var midSection: some View {
@@ -70,18 +75,25 @@ extension MainView {
             })
             .padding(.horizontal)
             
-//            Text("Set is played to 11 points")
-//                .font(.footnote)
-//                .foregroundColor(Color(#colorLiteral(red: 1, green: 0.9843137255, blue: 0, alpha: 1)))
+            Text("Set is played to \(winSet) points")
+                .font(.footnote)
+                .foregroundColor(Color(#colorLiteral(red: 1, green: 0.9843137255, blue: 0, alpha: 1)))
             
             Button(action: {
-                //showingSettings.toggle()
+                showInfoAlert.toggle()
             }, label: {
                 Image(systemName: "info.circle")
                     .padding(.all, 2)
                     .foregroundColor(Color(#colorLiteral(red: 1, green: 0.9843137255, blue: 0, alpha: 1)))
             })
             .padding(.horizontal)
+            .alert(isPresented: $showInfoAlert, content: {
+                Alert(title: Text(""),
+                      message: Text("Click on a player's tile to add their a point. \n\n Make a pinching or magnification gesture (with two fingers) to substract one point.").foregroundColor(.red)
+                
+                      
+                      )
+            })
         }
     }
 }
